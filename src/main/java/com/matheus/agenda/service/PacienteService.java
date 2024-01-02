@@ -50,10 +50,14 @@ public class PacienteService {
 
     public List<PacienteDTO> buscarPorID(Long id){
 
-        return pacienteRepository.findById(id).stream()
+        List<PacienteDTO> pacienteDTOList = pacienteRepository.findById(id).stream()
                 .map(paciente -> pacienteAssemble.pacienteParaDTO(paciente))
                 .collect(Collectors.toList());
 
+        if (pacienteDTOList.isEmpty()){
+            throw new RuntimeException("Paciente não encontrado");
+        }
+        return pacienteDTOList;
     }
 
     public void deletarPaciente(Long id){
