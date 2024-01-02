@@ -23,6 +23,9 @@ public class PacienteService {
 
 
     public PacienteDTO salvar(Paciente paciente){
+
+        //TODO: Exception para verificar se CPF já não está cadastrado
+
         pacienteRepository.save(paciente);
 
         return pacienteAssemble.pacienteParaDTO(paciente);
