@@ -22,9 +22,19 @@ public class PacienteService {
 
 
 
-    public PacienteDTO salvar(Paciente paciente){
+    public PacienteDTO salvar(Paciente paciente) {
 
-        //TODO: Exception para verificar se CPF já não está cadastrado
+        Optional<Paciente> cpfDePaciete = pacienteRepository.findByCpfIgnoreCase(paciente.getCpf());
+        Optional<Paciente> emailDePaciete = pacienteRepository.findByEmailIgnoreCase(paciente.getEmail());
+
+        if (cpfDePaciete.isPresent()) {
+
+            throw new RuntimeException("CPF já cadastrado em nosso sistema");
+
+        } else if (emailDePaciete.isPresent()) {
+
+            throw new RuntimeException("Email já cadastrado em nosso sistema");
+        }
 
         pacienteRepository.save(paciente);
 
@@ -47,6 +57,12 @@ public class PacienteService {
     }
 
     public void deletarPaciente(Long id){
+
+        Optional<Paciente> pacienteExiste = pacienteRepository.findById(id);
+
+        if (pacienteExiste.isEmpty()){
+            throw new RuntimeException("Paciente não existe em nosso sistema");
+        }
 
         pacienteRepository.deleteById(id);
 
