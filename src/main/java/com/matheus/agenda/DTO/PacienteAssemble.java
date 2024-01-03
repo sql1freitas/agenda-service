@@ -9,7 +9,7 @@ public class PacienteAssemble {
 
     public PacienteDTO pacienteParaDTO (Paciente paciente){
 
-        return new PacienteDTO(paciente.getId(), paciente.getNome(), paciente.getSobrenome(),
+        return new PacienteDTO(paciente.getNome(), paciente.getSobrenome(),
                  paciente.getEmail());
     }
 }

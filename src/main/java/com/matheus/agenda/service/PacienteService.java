@@ -6,6 +6,8 @@ import com.matheus.agenda.entity.Paciente;
 import com.matheus.agenda.repository.PacienteRepository;
 import jakarta.transaction.Transactional;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
@@ -55,23 +57,15 @@ public class PacienteService {
 
     public List<PacienteDTO> buscarPorID(Long id){
 
-        List<PacienteDTO> pacienteDTOList = pacienteRepository.findById(id).stream()
+        return pacienteRepository.findById(id).stream()
                 .map(paciente -> pacienteAssemble.pacienteParaDTO(paciente))
                 .collect(Collectors.toList());
 
-        if (pacienteDTOList.isEmpty()){
-            throw new RuntimeException("Paciente não encontrado");
-        }
-        return pacienteDTOList;
+
     }
 
     public void deletarPaciente(Long id){
 
-        Optional<Paciente> pacienteExiste = pacienteRepository.findById(id);
-
-        if (pacienteExiste.isEmpty()){
-            throw new RuntimeException("Paciente não existe em nosso sistema");
-        }
 
         pacienteRepository.deleteById(id);
 
@@ -79,11 +73,7 @@ public class PacienteService {
 
     public PacienteDTO alterarPaciente (Paciente paciente, Long id){
 
-     Optional<Paciente> pacienteId = pacienteRepository.findById(id);
 
-     if(pacienteId.isEmpty()){
-         throw new RuntimeException("Paciente não existe!");
-     }
 
     paciente.setId(id);
 

@@ -7,15 +7,11 @@ import lombok.Setter;
 @Setter
 public class PacienteDTO {
 
-    private Long id;
     private String nome;
     private String sobrenome;
-
-
     private String email;
 
-    public PacienteDTO(Long id, String nome, String sobrenome, String email) {
-        this.id = id;
+    public PacienteDTO(String nome, String sobrenome, String email) {
         this.nome = nome;
         this.sobrenome = sobrenome;
 

@@ -17,7 +17,8 @@ import java.util.Optional;
 @RestController
 @RequestMapping("/paciente")
 public class PacienteController {
-
+    @Autowired
+    PacienteRepository pacienteRepository;
     @Autowired
     private PacienteService pacienteService;
     @Autowired
@@ -42,22 +43,39 @@ public class PacienteController {
     @GetMapping("/listar-id/{id}")
     public ResponseEntity<List<PacienteDTO>> listarPorID(@PathVariable Long id){
 
+        Optional<Paciente> pacienteId = pacienteRepository.findById(id);
+        if(pacienteId.isEmpty()){
+            return ResponseEntity.notFound().build();
+        }
+
         return ResponseEntity.status(HttpStatus.OK).body(pacienteService.buscarPorID(id));
     }
 
     @DeleteMapping("/deletar/{id}")
-    @ResponseStatus(HttpStatus.NO_CONTENT)
-    public void deletarPaciente(@PathVariable Long id){
+
+    public ResponseEntity<Void> deletarPaciente(@PathVariable Long id){
+
+        Optional<Paciente> pacienteId = pacienteRepository.findById(id);
+        if(pacienteId.isEmpty()){
+            return ResponseEntity.notFound().build();
+        }
+
         pacienteService.deletarPaciente(id);
+
+        return ResponseEntity.noContent().build();
     }
 
     @PutMapping("/alterar/{id}")
     public ResponseEntity<PacienteDTO> alterarPaciente(@PathVariable Long id, @RequestBody Paciente paciente){
 
+        Optional<Paciente> pacienteId = pacienteRepository.findById(id);
+        if(pacienteId.isEmpty()){
+            return ResponseEntity.notFound().build();
+        }
+
     PacienteDTO pacienteAtualizado = pacienteService.alterarPaciente(paciente, id);
 
     return ResponseEntity.status(HttpStatus.OK).body(pacienteAtualizado);
-
 
     }
 
