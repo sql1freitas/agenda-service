@@ -1,9 +1,11 @@
 package com.matheus.agenda.entity;
 
 import jakarta.persistence.*;
+import jakarta.validation.constraints.Future;
 import jakarta.validation.constraints.NotBlank;
 import lombok.Getter;
 import lombok.Setter;
+import org.springframework.format.annotation.DateTimeFormat;
 
 import java.time.LocalDateTime;
 @Getter
@@ -20,11 +22,12 @@ public class Agenda {
     private String descricao;
 
     @Column(name = "data_hora")
-    @NotBlank(message = "Horário deve ser preenchido.")
+    @Future
+    @DateTimeFormat(pattern = "yyyy-MM-ddTHH:mm:ss")
     private LocalDateTime horario;
 
     @Column(name = "data_criacao")
-    @NotBlank(message = "Data da criação deve ser preenchida.")
+    @DateTimeFormat(pattern = "yyyy-MM-ddTHH:mm:ss")
     private LocalDateTime dataCriacao;
 
     @ManyToOne

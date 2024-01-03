@@ -28,17 +28,16 @@ public class AgendaController {
        return agendaService.listarTodos();
     }
 
+    @PostMapping("/salvar/{id}")
+    public ResponseEntity<AgendaDTO> salvar(@RequestBody Agenda agenda, @PathVariable Long id){
 
-    public ResponseEntity<AgendaDTO> salvar(@RequestBody Agenda agenda){
-
-        AgendaDTO newAgenda = agendaService.salvar(agenda);
+        AgendaDTO newAgenda = agendaService.salvar(agenda, id);
 
         return ResponseEntity.status(HttpStatus.CREATED).body(newAgenda);
 
     }
 
     @DeleteMapping("/deletar/{id}")
-
     public ResponseEntity<Void> deletarAgenda(@PathVariable Long id){
 
         Optional<Agenda> validarAgenda = agendaRepository.findById(id);
@@ -53,5 +52,14 @@ public class AgendaController {
         return ResponseEntity.status(HttpStatus.NO_CONTENT).build();
 
     }
+
+    @GetMapping("paciente/{cpf}")
+    public ResponseEntity<AgendaDTO> encontrarPorPaciente(@PathVariable String cpf){
+        AgendaDTO agenda = agendaService.buscarPorPaciente(cpf);
+
+        return ResponseEntity.status(HttpStatus.OK).body(agenda);
+    }
+
+
 
 }

@@ -25,6 +25,8 @@ public class AgendaService {
     private PacienteRepository pacienteRepository;
     @Autowired
     private AgendaAssemble agendaAssemble;
+    @Autowired
+    private PacienteService pacienteService;
 
 
 
@@ -38,9 +40,9 @@ public class AgendaService {
     }
 
 
-    public AgendaDTO salvar(Agenda agenda){
+    public AgendaDTO salvar(Agenda agenda, Long id){
 
-        Optional<Paciente> validarPaciente = pacienteRepository.findById(agenda.getPaciente().getId());
+        Optional<Paciente> validarPaciente = pacienteRepository.findById(id);
         Optional<Agenda> validarHorario = agendaRepository.findByHorario(agenda.getHorario());
 
         if (validarPaciente.isEmpty()){
@@ -66,5 +68,38 @@ public class AgendaService {
         agendaRepository.deleteById(id);
 
     }
+
+
+    public List<AgendaDTO> buscarPorId (Long id){
+
+        return agendaRepository.findById(id).stream()
+                .map(agenda -> agendaAssemble.agendaParaDTO(agenda))
+                .collect(Collectors.toList());
+
+
+    }
+
+    public AgendaDTO buscarPorPaciente (String cpf){
+
+        Agenda agenda;
+
+        Optional<Paciente> validarPaciente = pacienteRepository.findByCpfIgnoreCase(cpf);
+        Optional<Agenda> validarAgenda = agendaRepository.findByPaciente(validarPaciente);
+
+        if (validarPaciente.isEmpty()){
+            throw new RuntimeException("Paciente não encontrado");
+        }
+
+        if (validarAgenda.isEmpty()){
+            throw new RuntimeException("Não existe agenda cadastrada ao CPF informado");
+        }
+
+        agenda = validarAgenda.get();
+
+        return agendaAssemble.agendaParaDTO(agenda);
+
+    }
+
+
 
 }
