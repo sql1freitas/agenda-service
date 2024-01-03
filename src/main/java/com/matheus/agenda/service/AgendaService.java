@@ -40,7 +40,6 @@ public class AgendaService {
 
     public AgendaDTO salvar(Agenda agenda){
 
-
         Optional<Paciente> validarPaciente = pacienteRepository.findById(agenda.getPaciente().getId());
         Optional<Agenda> validarHorario = agendaRepository.findByHorario(agenda.getHorario());
 
