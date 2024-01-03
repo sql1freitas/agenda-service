@@ -53,9 +53,10 @@ public class AgendaController {
 
     }
 
-    @GetMapping("paciente/{cpf}")
-    public ResponseEntity<AgendaDTO> encontrarPorPaciente(@PathVariable String cpf){
-        AgendaDTO agenda = agendaService.buscarPorPaciente(cpf);
+    @GetMapping("/paciente/{cpf}")
+    public ResponseEntity<List<AgendaDTO>> encontrarPorPaciente(@PathVariable String cpf){
+
+        List<AgendaDTO> agenda = agendaService.buscarPorPaciente(cpf);
 
         return ResponseEntity.status(HttpStatus.OK).body(agenda);
     }

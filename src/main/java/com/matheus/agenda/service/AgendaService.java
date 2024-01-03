@@ -79,27 +79,27 @@ public class AgendaService {
 
     }
 
-    public AgendaDTO buscarPorPaciente (String cpf){
-
-        Agenda agenda;
+    public List<AgendaDTO> buscarPorPaciente (String cpf){
 
         Optional<Paciente> validarPaciente = pacienteRepository.findByCpfIgnoreCase(cpf);
-        Optional<Agenda> validarAgenda = agendaRepository.findByPaciente(validarPaciente);
 
-        if (validarPaciente.isEmpty()){
+        if (validarPaciente.isEmpty()) {
             throw new RuntimeException("Paciente não encontrado");
         }
 
-        if (validarAgenda.isEmpty()){
-            throw new RuntimeException("Não existe agenda cadastrada ao CPF informado");
+        Paciente paciente = validarPaciente.get();
+
+        List<Agenda> agendasDoPaciente = agendaRepository.findByPaciente(paciente);
+
+        if (agendasDoPaciente.isEmpty()) {
+            throw new RuntimeException("Não existe agenda cadastrada para o CPF informado");
         }
 
-        agenda = validarAgenda.get();
-
-        return agendaAssemble.agendaParaDTO(agenda);
-
+        return agendasDoPaciente.stream()
+                .map(agenda -> agendaAssemble.agendaParaDTO(agenda))
+                .collect(Collectors.toList());
     }
 
 
 
-}
+    }
