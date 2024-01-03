@@ -9,6 +9,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
+import java.util.Objects;
 import java.util.Optional;
 import java.util.stream.Collectors;
 
@@ -22,16 +23,20 @@ public class PacienteService {
 
 
 
+
+
+
     public PacienteDTO salvar(Paciente paciente) {
 
-        Optional<Paciente> cpfDePaciete = pacienteRepository.findByCpfIgnoreCase(paciente.getCpf());
-        Optional<Paciente> emailDePaciete = pacienteRepository.findByEmailIgnoreCase(paciente.getEmail());
 
-        if (cpfDePaciete.isPresent()) {
+        Optional<Paciente> cpfDePaciente = pacienteRepository.findByCpfIgnoreCase(paciente.getCpf());
+        Optional<Paciente> emailDePaciente = pacienteRepository.findByEmailIgnoreCase(paciente.getEmail());
+
+        if (cpfDePaciente.isPresent()) {
 
             throw new RuntimeException("CPF já cadastrado em nosso sistema");
 
-        } else if (emailDePaciete.isPresent()) {
+        } else if (emailDePaciente.isPresent()) {
 
             throw new RuntimeException("Email já cadastrado em nosso sistema");
         }
@@ -69,6 +74,23 @@ public class PacienteService {
         }
 
         pacienteRepository.deleteById(id);
+
+    }
+
+    public PacienteDTO alterarPaciente (Paciente paciente, Long id){
+
+     Optional<Paciente> pacienteId = pacienteRepository.findById(id);
+
+     if(pacienteId.isEmpty()){
+         throw new RuntimeException("Paciente não existe!");
+     }
+
+    paciente.setId(id);
+
+
+    Paciente pacienteAtualizado = pacienteRepository.save(paciente);
+
+    return pacienteAssemble.pacienteParaDTO(pacienteAtualizado);
 
     }
 
