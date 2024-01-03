@@ -9,11 +9,7 @@ import java.time.LocalDateTime;
 @Setter
 public class AgendaDTO {
 
-    private Long id;
-
     private String descricao;
-
-
 
     private LocalDateTime horario;
 
@@ -22,8 +18,7 @@ public class AgendaDTO {
     private Paciente paciente;
 
 
-    public AgendaDTO(Long id, String descricao, LocalDateTime horario, LocalDateTime dataCriacao, Paciente paciente) {
-        this.id = id;
+    public AgendaDTO( String descricao, LocalDateTime horario, LocalDateTime dataCriacao, Paciente paciente) {
         this.descricao = descricao;
         this.horario = horario;
         this.dataCriacao = dataCriacao;
