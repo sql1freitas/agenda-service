@@ -15,14 +15,14 @@ public class AgendaDTO {
 
     private LocalDateTime dataCriacao;
 
-    private Paciente paciente;
 
 
-    public AgendaDTO( String descricao, LocalDateTime horario, LocalDateTime dataCriacao, Paciente paciente) {
+
+    public AgendaDTO( String descricao, LocalDateTime horario, LocalDateTime dataCriacao) {
         this.descricao = descricao;
         this.horario = horario;
         this.dataCriacao = dataCriacao;
-        this.paciente = paciente;
+
     }
 
 
