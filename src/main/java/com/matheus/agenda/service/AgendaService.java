@@ -60,4 +60,11 @@ public class AgendaService {
 
 
     }
+
+    public void deletarAgenda(Long id){
+
+        agendaRepository.deleteById(id);
+
+    }
+
 }
