@@ -9,6 +9,6 @@ public class AgendaAssemble {
     public AgendaDTO agendaParaDTO (Agenda agenda){
 
         return new AgendaDTO( agenda.getDescricao(), agenda.getHorario(),
-                agenda.getDataCriacao(), agenda.getPaciente());
+                agenda.getDataCriacao());
     }
 }
